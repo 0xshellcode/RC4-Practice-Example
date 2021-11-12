@@ -27,9 +27,11 @@ const cipherText = (plainText: any, key: any) => {
 
   let j = 0;
   for (let i = 0; i <= 256; i++) {
-    j = j + s_vector[i] + (expanded_key[i] % 256);
+    j = (j + s_vector[i] + expanded_key[i]) % 256;
     [s_vector[i], s_vector[j]] = [s_vector[j], s_vector[i]];
   }
+
+  console.log(j);
 
   // Pseudo Random Generation Algorithm
 
