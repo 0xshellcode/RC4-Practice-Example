@@ -3,13 +3,18 @@ const key: any = '12190415';
 
 const encoder = new TextEncoder();
 
-const encodedKey = encoder.encode(key);
-const encodedplainText = encoder.encode(plainText);
-
-console.log(`Encoded Key: ${encodedKey}`);
-console.log(`Encoded PlainText: ${encodedplainText}`);
+const hex2Ascii = (hexx: string) => {
+  let hex = hexx.toString();
+  let str = '';
+  for (let i = 0; i < hex.length; i += 2)
+    str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+  return str;
+};
 
 const rc4Algorithm = (plainText: any, key: any) => {
+  const encodedKey = encoder.encode(key);
+  const encodedplainText = encoder.encode(plainText);
+
   let finalResult = [];
 
   // Key Scheduling Algorithm
@@ -41,22 +46,21 @@ const rc4Algorithm = (plainText: any, key: any) => {
     let k = s_vector[t];
     finalResult.push(byte ^ k);
   }
-  return finalResult;
+
+  const encryptedMessageInHex = finalResult.map((value) => {
+    return value.toString(16);
+  });
+
+  let joinedHex = encryptedMessageInHex.join('');
+  let finalAscii = hex2Ascii(joinedHex);
+
+  return finalAscii;
 };
 
-console.log(rc4Algorithm(plainText, key));
+console.log(`Original Plain Text: ${plainText}`);
+
 const encryptedMessage = rc4Algorithm(plainText, key);
+console.log(`Encrypted Message: ${encryptedMessage}`);
 
-encryptedMessage.forEach((value) => {
-  console.log(value.toString(16));
-});
-
-const hex2Ascii = (hexx: string) => {
-  let hex = hexx.toString(); //force conversion
-  let str = '';
-  for (let i = 0; i < hex.length; i += 2)
-    str += String.fromCharCode(parseInt(hex.substring(i, 2), 16));
-  return str;
-};
-
-console.log(hex2Ascii('81d4d216af11da'));
+const decryptedPlainText = rc4Algorithm(encryptedMessage, key);
+console.log(`Descrypted Message: ${decryptedPlainText}`);
