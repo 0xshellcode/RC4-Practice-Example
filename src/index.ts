@@ -42,7 +42,7 @@ const cipherText = (plainText: any, key: any) => {
   for (byte in plainText) {
     i = (i + 1) % 256;
     j = (j + s_vector[i]) % 256;
-    s_vector[i], (s_vector[j] = s_vector[j]), s_vector[i];
+    [s_vector[i], s_vector[j]] = [s_vector[j], s_vector[i]];
     let t = (s_vector[i] + s_vector[j]) % 256;
     let k = s_vector[t];
     finalResult.push(byte ^ k);
