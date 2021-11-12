@@ -1,7 +1,13 @@
 const plainText: any = 'mazacuata';
 const key: any = '12190415';
 
-// let cipherText = new ArrayBuffer(plainText.length);
+const encoder = new TextEncoder();
+
+const encodedKey = encoder.encode(key);
+const encodedplainText = encoder.encode(plainText);
+
+console.log(`Encoded Key: ${encodedKey}`);
+console.log(`Encoded PlainText: ${encodedplainText}`);
 
 const cipherText = (plainText: any, key: any) => {
   let finalResult = [];
@@ -12,9 +18,12 @@ const cipherText = (plainText: any, key: any) => {
   let expanded_key: any = [];
 
   for (let i = 0; i <= 256; i++) {
-    expanded_key.push(key[i % key.length]);
+    expanded_key.push(encodedKey[i % encodedKey.length]);
     s_vector.push(i);
   }
+
+  console.log(s_vector);
+  console.log(expanded_key);
 
   let j = 0;
   for (let i = 0; i <= 256; i++) {
