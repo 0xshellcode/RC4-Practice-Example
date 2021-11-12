@@ -3,12 +3,6 @@ const key: any = '12190415';
 
 const encoder = new TextEncoder();
 
-function hexToBytes(hex: any) {
-  for (var bytes = [], c = 0; c < hex.length; c += 2)
-    bytes.push(parseInt(hex.substr(c, 2), 16));
-  return bytes;
-}
-
 const hex2Bytes = (hex: any) => {
   for (var bytes = [], c = 0; c < hex.length; c += 2)
     bytes.push(parseInt(hex.substr(c, 2), 16));
@@ -32,7 +26,7 @@ const ascii2Hex = (ascii: string) => {
   return arr1.join('');
 };
 
-const rc4Algorithm = (encodedplainText: any, key: any) => {
+const rc4Algorithm = (encodedMessage: any, key: any) => {
   const encodedKey = encoder.encode(key);
 
   let finalResult = [];
@@ -58,7 +52,7 @@ const rc4Algorithm = (encodedplainText: any, key: any) => {
   let i = 0;
   j = 0;
 
-  for (let byte of encodedplainText) {
+  for (let byte of encodedMessage) {
     i = (i + 1) % 256;
     j = (j + s_vector[i]) % 256;
     [s_vector[i], s_vector[j]] = [s_vector[j], s_vector[i]];
@@ -83,7 +77,7 @@ const encryptedMessage = rc4Algorithm(encoder.encode(plainText), key);
 console.log(`Encrypted Message: ${encryptedMessage}`);
 
 const dencryptedMessage = rc4Algorithm(
-  hexToBytes(ascii2Hex(encryptedMessage)),
+  hex2Bytes(ascii2Hex(encryptedMessage)),
   key
 );
 console.log(`Decrypted Message: ${dencryptedMessage}`);
