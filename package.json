@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/0xshellcode/RC4-Practice-Example#readme",
   "devDependencies": {
+    "@types/node": "^16.11.7",
     "nodemon": "^2.0.15",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
